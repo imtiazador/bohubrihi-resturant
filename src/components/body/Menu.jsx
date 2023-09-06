@@ -2,12 +2,18 @@ import { useState } from "react";
 import MenuItem from "./MenuItem";
 import DISHES from "../../data/Dishes";
 import DishDetails from "./DishDetails";
+import { CardColumns, Modal } from "reactstrap";
 
 const Menu = () => {
   const [dishes] = useState(DISHES);
   const [selectedDish, setSelectedDish] = useState(null);
+  const [isModal, setIsModal] = useState(false);
   const onSelectedDish = (dish) => {
     setSelectedDish(dish);
+    toggleModal();
+  };
+  const toggleModal = () => {
+    setIsModal(!isModal);
   };
   const menu = dishes.map((dish) => {
     return (
@@ -18,8 +24,10 @@ const Menu = () => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-5">{menu}</div>
-        <div className="col-7">{dishDetails}</div>
+        <CardColumns>{menu}</CardColumns>
+        <Modal isOpen={isModal} onClick={toggleModal} toggle={toggleModal}>
+          {dishDetails}
+        </Modal>
       </div>
     </div>
   );

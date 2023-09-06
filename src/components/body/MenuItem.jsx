@@ -1,7 +1,7 @@
-import { Card, CardImg, CardImgOverlay, CardTitle } from "reactstrap";
+import { Card, CardImg, CardImgOverlay, CardTitle, Col } from "reactstrap";
 const MenuItem = ({ dish, onSelectedDish }) => {
   return (
-    <div>
+    <Col sm="4" md="4" lg="4" xl="4" className="mx-auto">
       <Card
         inverse
         style={{ padding: 10, margin: 10, cursor: "pointer" }}
@@ -25,7 +25,7 @@ const MenuItem = ({ dish, onSelectedDish }) => {
           </CardTitle>
         </CardImgOverlay>
       </Card>
-    </div>
+    </Col>
   );
 };
 
