@@ -19,7 +19,11 @@ const Navigation = () => {
   return (
     <Navbar color="dark" dark expand="sm">
       <NavbarToggler onClick={toggleHandler} />
-      <NavbarBrand to="/">Imtiaz Resturant</NavbarBrand>
+      <NavbarBrand>
+        <Link to="/" className="nav-link">
+          Imtiaz Resturant
+        </Link>
+      </NavbarBrand>
       <Collapse isOpen={isNavOpen} navbar>
         <Nav className="me-auto" navbar>
           <NavItem>
