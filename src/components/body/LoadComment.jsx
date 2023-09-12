@@ -1,3 +1,4 @@
+// import dateFormat from "date-format";
 const LoadComment = ({ comment }) => {
   console.log(comment);
   const preview = comment.map((c) => {
@@ -5,6 +6,7 @@ const LoadComment = ({ comment }) => {
       <div key={c.id}>
         <h5>{c.author}</h5>
         <p>{c.comment}</p>
+        <p>Rating: {c.rating}</p>
       </div>
     );
   });

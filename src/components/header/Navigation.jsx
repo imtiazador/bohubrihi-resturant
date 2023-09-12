@@ -19,7 +19,7 @@ const Navigation = () => {
   return (
     <Navbar color="dark" dark expand="sm">
       <NavbarToggler onClick={toggleHandler} />
-      <NavbarBrand>
+      <NavbarBrand to="/" className="nav-link">
         <Link to="/" className="nav-link">
           Imtiaz Resturant
         </Link>

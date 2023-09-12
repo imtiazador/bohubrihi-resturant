@@ -1,17 +1,25 @@
 import { useState } from "react";
 import MenuItem from "./MenuItem";
-import DISHES from "../../data/Dishes";
-import COMMENTS from "../../data/comments";
+// import DISHES from "../../data/Dishes";
+// import COMMENTS from "../../data/comments";
 import DishDetails from "./DishDetails";
 import { CardColumns, Modal } from "reactstrap";
+import { connect } from "react-redux";
 
-const Menu = () => {
+const mapStateToProps = (state) => {
+  return {
+    dishes: state.dishes,
+    comments: state.comments,
+  };
+};
+
+const Menu = (props) => {
   document.title = "Menu";
-  const [dishes] = useState(DISHES);
-  const [comment] = useState(COMMENTS);
+  const [dishes] = useState(props.dishes);
+  const [comment] = useState(props.comments);
   const [selectedDish, setSelectedDish] = useState(null);
   const [isModal, setIsModal] = useState(false);
-  // console.log(comment);
+  console.log(comment);
   const onSelectedDish = (dish) => {
     setSelectedDish(dish);
     toggleModal();
@@ -36,7 +44,7 @@ const Menu = () => {
     <div className="container">
       <div className="row">
         <CardColumns>{menu}</CardColumns>
-        <Modal isOpen={isModal} onClick={toggleModal} toggle={toggleModal}>
+        <Modal isOpen={isModal} toggle={toggleModal}>
           {dishDetails}
         </Modal>
       </div>
@@ -44,4 +52,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default connect(mapStateToProps)(Menu);

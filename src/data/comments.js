@@ -18,7 +18,7 @@ const COMMENTS = [
   },
   {
     dishId: 0,
-    id: 2,
+    id: 19,
     rating: 3,
     comment: "Eat it, just eat it!",
     author: "Moinul",
@@ -157,10 +157,18 @@ const COMMENTS = [
   },
   {
     dishId: 3,
-    id: 19,
+    id: 2,
     rating: 2,
     comment: "It's your birthday, we're gonna party!",
     author: "Rony",
+    date: "2019-12-02T17:57:28.556094Z",
+  },
+  {
+    dishId: 3,
+    id: 20,
+    rating: 4,
+    comment: "It's your birthday, we're gonna party!",
+    author: "Asif",
     date: "2019-12-02T17:57:28.556094Z",
   },
 ];
