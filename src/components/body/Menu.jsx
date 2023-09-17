@@ -5,6 +5,7 @@ import MenuItem from "./MenuItem";
 import DishDetails from "./DishDetails";
 import { CardColumns, Modal } from "reactstrap";
 import { connect } from "react-redux";
+import * as actionType from "../../redux/actionTypes";
 
 const mapStateToProps = (state) => {
   return {
@@ -12,14 +13,28 @@ const mapStateToProps = (state) => {
     comments: state.comments,
   };
 };
-
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addComment: (dishId, rating, author, comment) =>
+      dispatch({
+        type: actionType.ADD_COMMENTS,
+        payload: {
+          dishId: dishId,
+          author: author,
+          comment: comment,
+          rating: rating,
+        },
+      }),
+  };
+};
 const Menu = (props) => {
   document.title = "Menu";
-  const [dishes] = useState(props.dishes);
-  const [comment] = useState(props.comments);
+  // console.log(props.addComment);
+  const dishes = props.dishes;
+  const comment = props.comments;
   const [selectedDish, setSelectedDish] = useState(null);
   const [isModal, setIsModal] = useState(false);
-  console.log(comment);
+  // console.log(comment);
   const onSelectedDish = (dish) => {
     setSelectedDish(dish);
     toggleModal();
@@ -38,7 +53,11 @@ const Menu = (props) => {
       })
     : null;
   const dishDetails = selectedDish ? (
-    <DishDetails dish={selectedDish} comment={comments} />
+    <DishDetails
+      dish={selectedDish}
+      comment={comments}
+      addComment={props.addComment}
+    />
   ) : null;
   return (
     <div className="container">
@@ -52,4 +71,4 @@ const Menu = (props) => {
   );
 };
 
-export default connect(mapStateToProps)(Menu);
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);
