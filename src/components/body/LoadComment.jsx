@@ -1,6 +1,6 @@
 // import dateFormat from "date-format";
 const LoadComment = ({ comment }) => {
-  console.log(comment);
+  // console.log(comment);
   const preview = comment.map((c) => {
     return (
       <div key={c.id}>

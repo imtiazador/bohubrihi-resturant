@@ -2,6 +2,8 @@ import { combineReducers } from "redux";
 import DISHES from "../data/Dishes";
 import COMMENTS from "../data/comments";
 import * as actionType from "./actionTypes";
+import { InitialContactForm } from "./Forms";
+import { createForms } from "react-redux-form";
 
 const dishReducer = (dishState = DISHES, action) => {
   switch (action.type) {
@@ -15,7 +17,7 @@ const commentReducer = (commentState = COMMENTS, action) => {
       let comment = action.payload;
       comment.id = commentState.length;
       comment.date = new Date().toDateString();
-      console.log(comment);
+      // console.log(comment);
       return commentState.concat(comment);
     default:
       return commentState;
@@ -33,4 +35,7 @@ const commentReducer = (commentState = COMMENTS, action) => {
 export const Reducer = combineReducers({
   dishes: dishReducer,
   comments: commentReducer,
+  ...createForms({
+    feedback: InitialContactForm,
+  }),
 });

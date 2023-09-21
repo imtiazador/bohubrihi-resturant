@@ -1,32 +1,47 @@
 import React, { Component } from "react";
-import { Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
+import { connect } from "react-redux";
+import { Control, Errors, Form, actions } from "react-redux-form";
+import { Button, FormGroup, Label, Col } from "reactstrap";
 
-class Contact extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: "",
-      lastName: "",
-      phone: "",
-      email: "",
-      agree: true,
-      contactType: "phone",
-      message: "",
-    };
-  }
-  onChangeHandler = (event) => {
-    const value =
-      event.target.type === "checkbox"
-        ? event.target.checked
-        : event.target.value;
-    const name = event.target.name;
-    this.setState({
-      [name]: value,
-    });
+const required = (val) => val && val.length;
+const isNumber = (val) => !isNaN(Number(val));
+const validEmail = (val) =>
+  /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/.test(val);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    resetFeedback: () => {
+      dispatch(actions.reset("feedback"));
+    },
   };
-  onSubmitHandler = (event) => {
-    console.log(this.state);
-    event.preventDefault();
+};
+class Contact extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     firstName: "",
+  //     lastName: "",
+  //     phone: "",
+  //     email: "",
+  //     agree: true,
+  //     contactType: "phone",
+  //     message: "",
+  //   };
+  // }
+  // onChangeHandler = (event) => {
+  //   const value =
+  //     event.target.type === "checkbox"
+  //       ? event.target.checked
+  //       : event.target.value;
+  //   const name = event.target.name;
+  //   this.setState({
+  //     [name]: value,
+  //   });
+  // };
+
+  onSubmitHandler = (value) => {
+    console.log(value);
+    this.props.resetFeedback();
   };
   render() {
     document.title = "Contact";
@@ -40,18 +55,27 @@ class Contact extends Component {
             <h3>Send your feedback</h3>
           </div>
           <div className="col-12 col-md-7">
-            <Form onSubmit={this.onSubmitHandler}>
+            <Form
+              model="feedback"
+              onSubmit={(value) => this.onSubmitHandler(value)}
+            >
               <FormGroup row>
                 <Label htmlFor="firstName" md={2}>
                   First Name
                 </Label>
                 <Col md={10}>
-                  <Input
-                    type="text"
+                  <Control.text
+                    model=".firstName"
                     name="firstName"
                     placeholder="First Name"
-                    value={this.state.firstName}
-                    onChange={this.onChangeHandler}
+                    className="form-control"
+                    validators={{ required }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".firstName"
+                    show="touched"
+                    messages={{ required: "required" }}
                   />
                 </Col>
               </FormGroup>
@@ -60,12 +84,18 @@ class Contact extends Component {
                   Last Name
                 </Label>
                 <Col md={10}>
-                  <Input
-                    type="text"
+                  <Control.text
+                    model=".lastName"
                     name="lastName"
                     placeholder="Last Name"
-                    value={this.state.lastName}
-                    onChange={this.onChangeHandler}
+                    className="form-control"
+                    validators={{ required }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".lastName"
+                    show="touched"
+                    messages={{ required: "required" }}
                   />
                 </Col>
               </FormGroup>
@@ -74,12 +104,21 @@ class Contact extends Component {
                   Phone
                 </Label>
                 <Col md={10}>
-                  <Input
-                    type="text"
+                  <Control.text
+                    model=".phone"
                     name="phone"
                     placeholder="phone"
-                    value={this.state.phone}
-                    onChange={this.onChangeHandler}
+                    className="form-control"
+                    validators={{ required, isNumber }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".phone"
+                    show="touched"
+                    messages={{
+                      required: "required  ",
+                      isNumber: "invalid Number",
+                    }}
                   />
                 </Col>
               </FormGroup>
@@ -88,12 +127,21 @@ class Contact extends Component {
                   email
                 </Label>
                 <Col md={10}>
-                  <Input
-                    type="text"
+                  <Control.text
+                    model=".email"
                     name="email"
                     placeholder="email"
-                    value={this.state.email}
-                    onChange={this.onChangeHandler}
+                    className="form-control"
+                    validators={{ required, validEmail }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".email"
+                    show="touched"
+                    messages={{
+                      required: "required  ",
+                      validEmail: "invalid Number",
+                    }}
                   />
                 </Col>
               </FormGroup>
@@ -101,26 +149,20 @@ class Contact extends Component {
                 <Col md={{ size: 6, offset: 2 }}>
                   <FormGroup check>
                     <Label check>
-                      <Input
-                        type="checkbox"
-                        name="agree"
-                        checked={this.state.agree}
-                        onChange={this.onChangeHandler}
-                      />{" "}
+                      <Control.checkbox model=".agree" name="agree" />{" "}
                       <strong>May we contact you</strong>
                     </Label>
                   </FormGroup>
                 </Col>
                 <Col md={{ size: 3, offset: 1 }}>
-                  <Input
-                    type="select"
+                  <Control.select
+                    model=".contactType"
                     name="contactType"
-                    value={this.state.contactType}
-                    onChange={this.onChangeHandler}
+                    className="form-control"
                   >
                     <option>Phone</option>
                     <option>Email</option>
-                  </Input>
+                  </Control.select>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -128,13 +170,19 @@ class Contact extends Component {
                   Your Feedback
                 </Label>
                 <Col md={10}>
-                  <Input
-                    type="textarea"
+                  <Control.textarea
+                    model=".message"
                     name="message"
-                    value={this.state.message}
-                    onChange={this.onChangeHandler}
                     rows="12"
-                  ></Input>
+                    className="form-control"
+                    validators={{ required }}
+                  ></Control.textarea>
+                  <Errors
+                    className="text-danger"
+                    model=".message"
+                    show="touched"
+                    messages={{ required: "required" }}
+                  />
                 </Col>
               </FormGroup>
               <FormGroup>
@@ -152,4 +200,4 @@ class Contact extends Component {
   }
 }
 
-export default Contact;
+export default connect(null, mapDispatchToProps)(Contact);

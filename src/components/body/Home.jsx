@@ -1,9 +1,14 @@
 import React, { Component } from "react";
+import Loading from "./Loading";
 
 class Home extends Component {
   render() {
     document.title = "Imtiaz Resturant";
-    return <div>Home</div>;
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   }
 }
 
